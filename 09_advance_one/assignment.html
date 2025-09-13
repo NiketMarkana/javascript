@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Profile Card</title>
+  <style>
+    body {
+      background-color: #212121;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #00bcd4;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    .card {
+      background: #2e2e2e;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 250px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      border: 2px solid #00bcd4;
+    }
+
+    .card h2 {
+      margin: 10px 0 5px;
+      font-size: 20px;
+    }
+
+    .card p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <button id="loadProfile">Load GitHub Profile</button>
+  <div id="profileContainer"></div>
+
+  <script>
+    const button = document.querySelector('#loadProfile');
+    const container = document.querySelector('#profileContainer');
+    const requestUrl = 'https://api.github.com/users/hiteshchoudhary';
+
+    button.addEventListener('click', function () {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', requestUrl);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          const data = JSON.parse(this.responseText);
+
+          // Clear old content
+          container.innerHTML = "";
+
+          // Create card
+          const card = document.createElement("div");
+          card.classList.add("card");
+
+          // Profile image
+          const img = document.createElement("img");
+          img.src = data.avatar_url;
+          img.alt = "Profile Picture";
+
+          // Name
+          const name = document.createElement("h2");
+          name.innerText = data.name;
+
+          // Followers
+          const followers = document.createElement("p");
+          followers.innerText = `Followers: ${data.followers}`;
+
+          // Append elements
+          card.appendChild(img);
+          card.appendChild(name);
+          card.appendChild(followers);
+
+          container.appendChild(card);
+        }
+      };
+      xhr.send();
+    });
+  </script>
+</body>
+</html>
