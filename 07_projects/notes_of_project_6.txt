@@ -1,0 +1,55 @@
+if (!intervalId) {
+  intervalId = setInterval(changeBgColor, 1000);
+}
+
+───────────────────────────────
+💡 Why use "if (!intervalId)" ?
+───────────────────────────────
+
+✔ Purpose:
+   → To prevent multiple setInterval timers from running at once.
+
+───────────────────────────────
+🚫 Without "if (!intervalId)"
+───────────────────────────────
+intervalId = setInterval(changeBgColor, 1000);
+
+👉 Every time you click the Start button:
+   • A NEW interval is created.
+   • Multiple timers run at the same time.
+   • Background changes FASTER and FASTER
+     (1s, then 0.5s, then 0.33s, etc.).
+   • This wastes memory and causes glitches.
+
+───────────────────────────────
+✅ With "if (!intervalId)"
+───────────────────────────────
+if (!intervalId) {
+    intervalId = setInterval(changeBgColor, 1000);
+}
+
+👉 Behavior:
+   • First click → intervalId is null → new timer starts.
+   • Second click → intervalId already has a value → 
+     no new timer is created.
+   • Ensures ONLY ONE interval is running.
+
+───────────────────────────────
+🛑 When you Stop
+───────────────────────────────
+stopChangingColor() {
+    clearInterval(intervalId);
+    intervalId = null;
+}
+
+👉 Clears the running timer.
+👉 Sets intervalId back to null.
+👉 Allows Start to work again safely.
+
+───────────────────────────────
+📌 Summary
+───────────────────────────────
+• "if (!intervalId)" acts as a SAFETY CHECK.
+• Prevents stacking multiple intervals.
+• Keeps background color changing smoothly
+  at the intended 1-second pace.
